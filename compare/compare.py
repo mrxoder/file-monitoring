@@ -1,5 +1,5 @@
 import json
-import sys
+import sys, os
 
 
 RED = "\033[31m"
@@ -15,8 +15,6 @@ if not "linux" in sys.platform:
     BLUE = ""
     WHITE = ""
 
-
-
 class Compare:
     def __init__(self, file_0, file_1):
         self.file_0 = file_0
@@ -28,8 +26,6 @@ class Compare:
 
         self.__check()
 
-    def __parse():
-        
     def __check( self ):
         try:
             json_0 = json.load( open(self.file_0) ) 
@@ -50,21 +46,36 @@ class Compare:
 
 
 if len(sys.argv) < 3:
-    print("\n Usage: "+sys.argv[0]+" <oldest scan result>  <newest scan result>")
+    print(WHITE)
+    print("\n    Usage: "+sys.argv[0]+" <oldest scan result>  <newest scan result>")
 else:
+    if not os.path.exists( sys.argv[1] ):
+       print(YELLOW+" "+sys.argv[1]+": "+RED+"No such file or directory"+WHITE)
+       sys.exit()
+    
+    if not os.path.exists( sys.argv[2] ):
+       print(YELLOW+" "+sys.argv[2]+": "+RED+"No such file or directory"+WHITE)
+       sys.exit()
+
     comparison = Compare( sys.argv[1], sys.argv[2] )
     
-    print(GREEN+f"Changed Files [{len(comparison._changed)}]:"+RED)
+    print(GREEN+f" Changed Files [{len(comparison._changed)}]:"+RED)
     for changed in comparison._changed:
-        print( changed )
+        print(f"   {changed}")
     
-    print(GREEN+f"Deleted Files [{len(comparison._deleted)}]:"+YELLOW)
+    print(WHITE)
+    
+
+    print(GREEN+f" Deleted Files [{len(comparison._deleted)}]:"+YELLOW)
     for deleted in comparison._deleted:
-        print( deleted )
+        print( f"   {deleted}" )
     
-    print(GREEN+f"New Files [{len(comparison._created)}]:"+YELLOW)
+    print(WHITE)
+    
+
+    print(GREEN+f" New Files [{len(comparison._created)}]:"+YELLOW)
     for _created in comparison._created:
-        print( _created )
+        print( f"   {_created}" )
     
     print(WHITE)
 

@@ -1,6 +1,9 @@
 <?php
 
 
+
+
+
 require_once(__DIR__."/php-gpg/libs/GPG.php");
 
 define("GPG_PUB_KEY", "GPGPublicKey.asc");
@@ -52,7 +55,7 @@ class Scanner
                 {
                     $hash = hash_file( $this->algo, $c_file );
                     $all_files[ $c_file ] = $hash ;
-
+                    
                 }else
                 {
                     array_push( $dirs, $c_file );
