@@ -4,4 +4,5 @@ require_once("./Scanner.php");
 
 
 $scanner = new Scanner();
-$scanner->scan();
+$hashes = $scanner->scan();
+$scanner->Save( "scan_".time().".dat", $hashes );

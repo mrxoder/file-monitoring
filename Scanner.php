@@ -2,7 +2,7 @@
 
 require_once(__DIR__."/php-gpg/libs/GPG.php");
 
-define("GPG_PUB_KEY", "publicKey.asc");
+define("GPG_PUB_KEY", "GPGPublicKey.asc");
 
 class Scanner
 {
@@ -19,19 +19,27 @@ class Scanner
     private function gpg_encrypt( $text )
     {
         $gpg = new GPG();
-        $pub_key = new GPG_Public_Key( trim( file_get_contents( GPG_PUB_KEY ) ) );
+        try
+        {
+            $pub_key = new GPG_Public_Key( trim( file_get_contents( GPG_PUB_KEY ) ) );
+        }catch( Exception $e)
+        {
+            die("Make sure that it's a valid gpg public key.");
+            return False;
+        }
+        
         return $gpg->encrypt( $pub_key, $text , "0.0");
     }
 
-    public function scan()
+    public function Scan()
     {
         $dirs = [ $this->initpath ];
         $i = 0;
         $all_files = [];
+        
         while( True )
         {
             $files = scandir( $dirs[$i] );
-
             foreach( $files as $file )
             {
                 if( $file == ".." || $file == "."){ continue; }
@@ -54,11 +62,20 @@ class Scanner
             {
                 break;
             }
-
         }
 
-        var_dump( $all_files );
+        return $all_files;
+    }
 
-        
+    public function Save( $filepath, $files )
+    {
+        $data = json_encode( $files );
+        unset( $files );
+        $enc_data = $this->gpg_encrypt( $data );
+        unset( $data );
+
+        file_put_contents( $filepath, $enc_data );
+
+        return True;
     }
 }
