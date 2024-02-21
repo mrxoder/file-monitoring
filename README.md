@@ -3,7 +3,7 @@ PHP script designed to help identify potential indicators of unauthorized modifi
 While it doesn't provide absolute backdoor detection, it aims to raise red flags for further investigation.
 
 ## Usage
-- Generate gpg key and add the public key to `GPGPublicKey.asc`
+- Generate gpg key and put the public key to `GPGPublicKey.asc`
 - Upload to php server:
     - GPGPublicKey.asc 
     - php-gpg/
