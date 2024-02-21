@@ -1,8 +1,11 @@
 <?php
 
+
 require_once("./Scanner.php");
 
-
-$scanner = new Scanner();
+$basePath = "./"; 
+$scanner = new Scanner( $basePath );
 $hashes = $scanner->scan();
-$scanner->Save( "scan_".time().".dat", $hashes );
+$date = date("h_i_s-d_M_Y");
+
+$scanner->Save( "scan_$date.dat", [ "files"=>$hashes, "basepath"=>$basePath, "date"=>$date ] );

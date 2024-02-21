@@ -1,15 +1,17 @@
 <?php
 
+
 require_once(__DIR__."/php-gpg/libs/GPG.php");
 
 define("GPG_PUB_KEY", "GPGPublicKey.asc");
 
 class Scanner
 {
+
     protected $initpath;
     protected $algo;
     protected $files;
-
+    
     public function __construct( $initpath = "./", $algo='sha256')
     {
         $this->initpath = $initpath ;   
@@ -67,10 +69,10 @@ class Scanner
         return $all_files;
     }
 
-    public function Save( $filepath, $files )
+    public function Save( $filepath, $scan_obj )
     {
-        $data = json_encode( $files );
-        unset( $files );
+        $data = json_encode( $scan_obj );
+        unset( $scan_obj );
         $enc_data = $this->gpg_encrypt( $data );
         unset( $data );
 
