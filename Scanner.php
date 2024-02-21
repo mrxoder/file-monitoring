@@ -1,12 +1,8 @@
 <?php
 
-
-
-
-
 require_once(__DIR__."/php-gpg/libs/GPG.php");
-
 define("GPG_PUB_KEY", "GPGPublicKey.asc");
+
 
 class Scanner
 {
