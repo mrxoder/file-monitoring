@@ -51,7 +51,7 @@ class Scanner
                 if( is_file( $c_file ) )
                 {
                     $hash = hash_file( $this->algo, $c_file );
-                    array_push( $all_files, [ $c_file => $hash ]);
+                    $all_files[ $c_file ] = $hash ;
 
                 }else
                 {
